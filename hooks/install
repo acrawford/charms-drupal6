@@ -1,5 +1,9 @@
 #!/bin/bash
-# Here do anything needed to install the service
-# i.e. apt-get install -y foo  or  bzr branch http://myserver/mycode /srv/webroot
 
-apt-get install -y drupal
+set -eux
+juju-log "Installing drush,apache2,php via apt-get"
+apt-get install -y nginx php5-fpm mysql-server memcached php-pear php-apc
+
+juju-log "Using Drush to Setup a Pressflow Instance"
+cd /var/www && drush dl drupal --drupal-project-rename=quickdrop
+

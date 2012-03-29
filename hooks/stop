@@ -1,7 +1,8 @@
 #!/bin/bash
-# This will be run when the service is being torn down, allowing you to disable
-# it in various ways..
-# For example, if your web app uses a text file to signal to the load balancer
-# that it is live... you could remove it and sleep for a bit to allow the load
-# balancer to stop sending traffic.
-# rm /srv/webroot/server-live.txt && sleep 30
+
+/etc/init.d/php-fpm stop
+/etc/init.d/nginx stop
+/etc/init.d/mysql stop
+
+## @TODO add db dump to s3 or dropbox on shutdown
+## @TODO ping external service like no-ip.com to show a maint.html page while we're offline

@@ -1,0 +1,82 @@
+#!/bin/bash
+set -eu
+juju-log $JUJU_REMOTE_UNIT modified its settings
+
+APP_PATH="/srv/quickdrop"
+
+hostname=`unit-get public-address`
+juju-log "Retrieved hostname: $hostname"
+
+
+## already setup?? lets bail then.
+config_file_path="${APP_PATH}/www/sites/default/"
+config_file_juju_stamp="${APP_PATH}/www/sites/default/configured"
+if [ -f "$config_file_path" ] ; then
+    MSG="Pressflow is already configured, bailing!"
+    juju-log $MSG
+    echo $MSG
+    exit 0
+fi
+
+## how about DB ?? nah? ok, next time around then and we blail here too.
+database=`relation-get database`
+if [ -z "$database" ] ; then
+    MSG="DB not ready for config, bailing untill next time hook is fired to check again!"
+    juju-log $MSG
+    echo $MSG
+    exit 0
+fi
+
+user=`relation-get user`
+password=`relation-get password`
+host=`relation-get private-address`
+
+juju-log "Creating upload paths and directories"
+## the local fs used for temp uploads, css and js storeage and more by drupal
+mkdir -p "${APP_PATH}/files/tmp"
+chown -R wwwdata:wwwdata "${APP_PATH}/files"
+chmod 0664 ${APP_PATH}
+chmod -R 0770 ${APP_PATH}/files
+ln -s ${APP_PATH}/files ${APP_PATH}/www/sites/default/files
+
+juju-log "Writing Pressflow config files at $config_file_path"
+config_preboot="${config_file_path}/preboot.inc.php"
+config_common="${config_file_path}/settings.common.inc.php"
+config_file="${config_file_path}/settings.php"
+cat > $config_file <<EOF
+<?php
+global $db_url, $db_prefix, $drupal_db;
+if(!defined('DRUPAL_ROOT')) {
+  define('DRUPAL_ROOT',getcwd())
+}
+require('settings.common.inc.php');
+
+$drupal_db = array (
+ 'type' => 'mysqli',
+  'server' => "$host",
+  'name' => '$user',
+  'user' => '$user',
+  'pass' => '$password',
+);
+
+$db_url = $drupal_db['type'].'://'.$drupal_db['user'].':'.$drupal_db['pass'].'@'.$drupal_db['server'].'/'.$drupal_db['name'];
+require('preboot.inc.php');
+EOF
+chmod 0644 $config_file
+
+cp "../files/config-templates/preboot.inc.php" $config_preboot
+chmod 0644 $config_preboot
+cp "../files/config-templates/settings.common.inc.php" $config_preboot
+chmod 0644 $config_common
+
+nginx_config_file_path="/etc/nginx/sites-available/default"
+
+## init.d nginx is broken in some versions, lets make sure we're golden :(
+/etc/init.d/nginx stop
+sleep 2s
+/etc/init.d/nginx start
+
+# Make it publicly visible, 8080 is for direct access to debug
+open-port 80/tcp
+open-port 8080/tcp
+

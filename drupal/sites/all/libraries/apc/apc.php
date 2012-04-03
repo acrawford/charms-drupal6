@@ -30,7 +30,7 @@ if (file_exists("apc.conf.php")) include("apc.conf.php");
 
 ////////// BEGIN OF DEFAULT CONFIG AREA ///////////////////////////////////////////////////////////
 
-defaults('USE_AUTHENTICATION',0);			// Use (internal) authentication - best choice if
+defaults('USE_AUTHENTICATION',0);      // Use (internal) authentication - best choice if
                       // no other authentication is available
                       // If set to 0:
                       //  There will be no further authentication. You
@@ -38,16 +38,16 @@ defaults('USE_AUTHENTICATION',0);			// Use (internal) authentication - best choi
                       // If set to 1:
                       //  You need to change ADMIN_PASSWORD to make
                       //  this work!
-defaults('ADMIN_USERNAME',''); 			// Admin Username
-defaults('ADMIN_PASSWORD','');  	// Admin Password - CHANGE THIS TO ENABLE!!!
+defaults('ADMIN_USERNAME','');       // Admin Username
+defaults('ADMIN_PASSWORD','');    // Admin Password - CHANGE THIS TO ENABLE!!!
 
 // (beckerr) I'm using a clear text password here, because I've no good idea how to let
 //           users generate a md5 or crypt password in a easy way to fill it in above
 
-//defaults('DATE_FORMAT', "d.m.Y H:i:s");	// German
-defaults('DATE_FORMAT', ' m/d/Y h:i:s A'); 	// US
+//defaults('DATE_FORMAT', "d.m.Y H:i:s");  // German
+defaults('DATE_FORMAT', ' m/d/Y h:i:s A');   // US
 
-defaults('GRAPH_SIZE',150);					// Image size
+defaults('GRAPH_SIZE',150);          // Image size
 
 //defaults('PROXY', 'tcp://127.0.0.1:8080');
 
@@ -78,20 +78,20 @@ define('OB_VERSION_CHECK',9);
 
 // check validity of input variables
 $vardom=array(
-  'OB'	=> '/^\d+$/',			// operational mode switch
-  'CC'	=> '/^[01]$/',			// clear cache requested
-  'DU'	=> '/^.*$/',			// Delete User Key
-  'SH'	=> '/^[a-z0-9]+$/',		// shared object description
+  'OB'  => '/^\d+$/',      // operational mode switch
+  'CC'  => '/^[01]$/',      // clear cache requested
+  'DU'  => '/^.*$/',      // Delete User Key
+  'SH'  => '/^[a-z0-9]+$/',    // shared object description
 
-  'IMG'	=> '/^[123]$/',			// image to generate
-  'LO'	=> '/^1$/',				// login requested
+  'IMG'  => '/^[123]$/',      // image to generate
+  'LO'  => '/^1$/',        // login requested
 
-  'COUNT'	=> '/^\d+$/',			// number of line displayed in list
-  'SCOPE'	=> '/^[AD]$/',			// list view scope
-  'SORT1'	=> '/^[AHSMCDTZ]$/',	// first sort key
-  'SORT2'	=> '/^[DA]$/',			// second sort key
-  'AGGR'	=> '/^\d+$/',			// aggregation by dir level
-  'SEARCH'	=> '~^[a-zA-Z0-1/_.-]*$~'			// aggregation by dir level
+  'COUNT'  => '/^\d+$/',      // number of line displayed in list
+  'SCOPE'  => '/^[AD]$/',      // list view scope
+  'SORT1'  => '/^[AHSMCDTZ]$/',  // first sort key
+  'SORT2'  => '/^[DA]$/',      // second sort key
+  'AGGR'  => '/^\d+$/',      // aggregation by dir level
+  'SEARCH'  => '~^[a-zA-Z0-1/_.-]*$~'      // aggregation by dir level
 );
 
 // default cache mode
@@ -131,7 +131,7 @@ foreach($vardom as $var => $dom) {
 if (empty($MYREQUEST['SCOPE'])) $MYREQUEST['SCOPE']="A";
 if (empty($MYREQUEST['SORT1'])) $MYREQUEST['SORT1']="H";
 if (empty($MYREQUEST['SORT2'])) $MYREQUEST['SORT2']="D";
-if (empty($MYREQUEST['OB']))	$MYREQUEST['OB']=OB_HOST_STATS;
+if (empty($MYREQUEST['OB']))  $MYREQUEST['OB']=OB_HOST_STATS;
 if (!isset($MYREQUEST['COUNT'])) $MYREQUEST['COUNT']=20;
 if (!isset($scope_list[$MYREQUEST['SCOPE']])) $MYREQUEST['SCOPE']='A';
 
@@ -1083,14 +1083,14 @@ EOB;
   $list = array();
   foreach($cache[$scope_list[$MYREQUEST['SCOPE']]] as $i => $entry) {
     switch($MYREQUEST['SORT1']) {
-      case 'A': $k=sprintf('%015d-',$entry['access_time']); 	break;
-      case 'H': $k=sprintf('%015d-',$entry['num_hits']); 		break;
-      case 'Z': $k=sprintf('%015d-',$entry['mem_size']); 		break;
-      case 'M': $k=sprintf('%015d-',$entry['mtime']);			break;
-      case 'C': $k=sprintf('%015d-',$entry['creation_time']);	break;
-      case 'T': $k=sprintf('%015d-',$entry['ttl']);			break;
-      case 'D': $k=sprintf('%015d-',$entry['deletion_time']);	break;
-      case 'S': $k='';										break;
+      case 'A': $k=sprintf('%015d-',$entry['access_time']);   break;
+      case 'H': $k=sprintf('%015d-',$entry['num_hits']);     break;
+      case 'Z': $k=sprintf('%015d-',$entry['mem_size']);     break;
+      case 'M': $k=sprintf('%015d-',$entry['mtime']);      break;
+      case 'C': $k=sprintf('%015d-',$entry['creation_time']);  break;
+      case 'T': $k=sprintf('%015d-',$entry['ttl']);      break;
+      case 'D': $k=sprintf('%015d-',$entry['deletion_time']);  break;
+      case 'S': $k='';                    break;
     }
     if (!$AUTHENTICATED) {
       // hide all path entries if not logged in
@@ -1105,8 +1105,8 @@ EOB;
     // sort list
     //
     switch ($MYREQUEST['SORT2']) {
-      case "A":	krsort($list);	break;
-      case "D":	ksort($list);	break;
+      case "A":  krsort($list);  break;
+      case "D":  ksort($list);  break;
     }
 
     // output list
@@ -1213,12 +1213,12 @@ EOB;
 
     '<div class="info"><table cellspacing=0><tbody>',
     '<tr>',
-    '<th>',sortheader('S','Directory Name',	"&OB=".$MYREQUEST['OB']),'</th>',
+    '<th>',sortheader('S','Directory Name',  "&OB=".$MYREQUEST['OB']),'</th>',
     '<th>',sortheader('T','Number of Files',"&OB=".$MYREQUEST['OB']),'</th>',
-    '<th>',sortheader('H','Total Hits',	"&OB=".$MYREQUEST['OB']),'</th>',
-    '<th>',sortheader('Z','Total Size',	"&OB=".$MYREQUEST['OB']),'</th>',
-    '<th>',sortheader('C','Avg. Hits',	"&OB=".$MYREQUEST['OB']),'</th>',
-    '<th>',sortheader('A','Avg. Size',	"&OB=".$MYREQUEST['OB']),'</th>',
+    '<th>',sortheader('H','Total Hits',  "&OB=".$MYREQUEST['OB']),'</th>',
+    '<th>',sortheader('Z','Total Size',  "&OB=".$MYREQUEST['OB']),'</th>',
+    '<th>',sortheader('C','Avg. Hits',  "&OB=".$MYREQUEST['OB']),'</th>',
+    '<th>',sortheader('A','Avg. Size',  "&OB=".$MYREQUEST['OB']),'</th>',
     '</tr>';
 
   // builds list with alpha numeric sortable keys
@@ -1240,11 +1240,11 @@ EOB;
   foreach ($tmp as $k => $v) {
     switch($MYREQUEST['SORT1']) {
       case 'A': $kn=sprintf('%015d-',$v['size'] / $v['ents']);break;
-      case 'T': $kn=sprintf('%015d-',$v['ents']);		break;
-      case 'H': $kn=sprintf('%015d-',$v['hits']);		break;
-      case 'Z': $kn=sprintf('%015d-',$v['size']);		break;
+      case 'T': $kn=sprintf('%015d-',$v['ents']);    break;
+      case 'H': $kn=sprintf('%015d-',$v['hits']);    break;
+      case 'Z': $kn=sprintf('%015d-',$v['size']);    break;
       case 'C': $kn=sprintf('%015d-',$v['hits'] / $v['ents']);break;
-      case 'S': $kn = $k;					break;
+      case 'S': $kn = $k;          break;
     }
     $list[$kn.$k] = array($k, $v['ents'], $v['hits'], $v['size']);
   }
@@ -1254,8 +1254,8 @@ EOB;
     // sort list
     //
     switch ($MYREQUEST['SORT2']) {
-      case "A":	krsort($list);	break;
-      case "D":	ksort($list);	break;
+      case "A":  krsort($list);  break;
+      case "D":  ksort($list);  break;
     }
 
     // output list

@@ -1,8 +1,7 @@
-name: omgubuntu-wp
-summary: "WordPress is a full featured web blogging tool, OMG! Ubuntu! is a blog."
+name: drupal
+summary: "Drupal CMS."
 description: |
- WordPress is a full featured web blogging tool.
- OMG! Ubuntu! is a blog using WordPress
+ Drupal CMS
 requires:
   db:
     interface: mysql

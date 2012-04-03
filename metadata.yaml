@@ -1,7 +1,11 @@
 name: drupal
-summary: "Drupal CMS."
+summary: fully-featured content management framework
 description: |
- Drupal CMS
+ Drupal is a dynamic web site platform which allows an individual or
+ community of users to publish, manage and organize a variety of
+ content, Drupal integrates many popular features of content
+ management systems, weblogs, collaborative tools and discussion-based
+ community software into one easy-to-use package.
 requires:
   db:
     interface: mysql

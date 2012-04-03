@@ -1,8 +1,3 @@
 #!/bin/bash
 
-/etc/init.d/php-fpm stop
-/etc/init.d/nginx stop
-/etc/init.d/mysql stop
-
-## @TODO add db dump to s3 or dropbox on shutdown
-## @TODO ping external service like no-ip.com to show a maint.html page while we're offline
+/etc/cron.daily/drupal-backup

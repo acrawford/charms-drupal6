@@ -1,2 +1,8 @@
 #!/bin/bash
-install
+
+drupal_install_path="/var/www/drupal"
+
+juju-log "Upgrading Custom Drupal Files Themes, Modules, Libraries, etc"
+rsync -az files/drupal/ $drupal_install_path
+
+chown -R www-data.www-data $drupal_install_path

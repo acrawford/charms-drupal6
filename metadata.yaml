@@ -1,16 +1,8 @@
-name: quickdrop
-summary: "A fast and Fully Configured with Best practices Pressflow implementation of the Drupal CMS"
+name: omgubuntu-wp
+summary: "WordPress is a full featured web blogging tool, OMG! Ubuntu! is a blog."
 description: |
- A fast and Fully Configured with Best practices Pressflow implementation of the Drupal CMS:
- - Instant publishing (no rebuilding)
- -
- - East to read URLs that are SEO friendly, no extra work.
- - Every Pixel is 100% Themable Out of the box.
- - Extensive Mod Library and its Easy to build Custom Modules.
- - Pressflow is 100% API compatable with Drupal.
- - Built with Nginx,PHP+APC, and Memcache so its very fast.
- - Will scale to a very larg amount of traffic out of the box,
- - Or just run a single blog with low traffic just as well.
+ WordPress is a full featured web blogging tool.
+ OMG! Ubuntu! is a blog using WordPress
 requires:
   db:
     interface: mysql
@@ -18,5 +10,5 @@ provides:
   website:
     interface: http
 peers:
-  relation-name:
-    interface: interface-name
+  loadbalancer:
+    interface: reversenginx

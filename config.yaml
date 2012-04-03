@@ -1,0 +1,13 @@
+options:
+  aws-public-key:
+    type: string
+    default: ""
+    description: Amazon Public Key for S3
+  aws-secret-key:
+    type: string
+    default: ""
+    description: Amazon Secret Key for S3
+  flush-opcode-cache:
+    type: boolean
+    default: False
+    description: When set to True will flush the OpCode Cache

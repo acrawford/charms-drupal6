@@ -1,9 +1,0 @@
-#!/bin/sh
-juju-log $JUJU_REMOTE_UNIT joined
-
-IP=`ifconfig  | grep 'inet addr:'| grep -v '127.0.0.1' | cut -d: -f2 | awk '{ print $1}'|head -n 1`
-relation-set ip=$IP port=80 hostname=`hostname -f`
-
-MSG="$JUJU_REMOTE_UNIT instance is on IP: $IP"
-echo $MSG
-juju-log $MSG

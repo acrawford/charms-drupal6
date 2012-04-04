@@ -1,8 +1,8 @@
 server {
-  listen 80;
-  server_name ~^admin\.+;
-  access_log /mnt/admin-access.log;
-  error_log /mnt/admin-error.log;
+  listen 8080;
+  server_name _;
+  access_log /mnt/access.log;
+  error_log /mnt/error.log;
   root   /var/www/drupal;
   index index.php index.html;
   client_max_body_size    10m;

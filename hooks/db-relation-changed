@@ -30,7 +30,7 @@ secret_key=`pwgen 10 1`
 source "/usr/share/charm-helper/sh/net.sh"
 
 juju-log "Grabbing the latest stable Drupal"
-git clone -o pressflow git://github.com/pressflow/6.git /var/www/drupal
+git clone -o pressflow https://github.com/pressflow/6.git /var/www/drupal
 
 juju-log "Dropping Custom Drupal Themes, Modules, Libraries, etc in to position"
 rsync -az files/drupal/ $drupal_install_path
@@ -56,8 +56,6 @@ if (!defined('DRUPAL_ROOT')) {
 
 global \$conf, \$db_url, \$drupal_db, \$cookie_domain, \$update_free_access, \$db_prefix;
 error_reporting(E_ALL ^ (E_NOTICE | E_WARNING));
-
-include_once(DRUPAL_ROOT . '/sites/all/libraries/Pixeldrop/ClassLoader/Loader.php');
 
 \$update_free_access = false;
 \$cookie_domain = \$_SERVER['HTTP_HOST'];
@@ -88,7 +86,6 @@ ini_set('url_rewriter.tags', '');
 //\$conf['page_cache_without_database'] = TRUE;
 //\$conf['page_cache_invoke_hooks'] = FALSE;
 
-
 \$drupal_db = array(
     'type' => 'mysqli',
     'server' => '$host',
@@ -101,31 +98,24 @@ ini_set('url_rewriter.tags', '');
 \$db_url = \$drupal_db['type'] . '://' . \$drupal_db['user'] . ':' . \$drupal_db['pass'] . '@' . \$drupal_db['server'] . '/' . \$drupal_db['name'];
 \$db_prefix = \$drupal_db['prefix'];
 
-include_once(DRUPAL_ROOT . '/sites/default/bootstrap.inc.php');
+//include_once(DRUPAL_ROOT . '/sites/default/bootstrap.inc.php');
 
 EOF
 chmod 0644 $config_file_path
 
-juju-log "Enabling Nginx site: $hostname"
+juju-log "Enabling Nginx on $hostname"
 
 chown -R www-data.www-data $drupal_install_path
 
-if [ ! -f /etc/cron.daily/drupal-backup ]; then
-  juju-log "Put the backup process in place"
-  rsync -az files/drupal-backup /etc/cron.daily/
-  chmod 0755 /etc/cron.daily/drupal-backup
-fi
-
-sed -i -e "s@DB_HOST=\".*\"@DB_HOST=\"$host\"@" \
-    -e "s@DB_USER=\".*\"@DB_USER=\"$user\"@" \
-    -e "s@DB_PASS=\".*\"@DB_PASS=\"$password\"@" \
-    -e "s@DB_NAME=\".*\"@DB_NAME=\"$database\"@" \
-    /etc/cron.daily/drupal-backup
-
 # Restart nginx
 juju-log "Restarting nginx service"
+service php5-fpm restart
 service nginx restart
 
 # Make it publicly visible, once the wordpress service is exposed
 open-port 80/tcp
 open-port 8080/tcp
+
+$pub = `unit-get public-address`
+juju-log "Drupal site is now available on $pub"
+

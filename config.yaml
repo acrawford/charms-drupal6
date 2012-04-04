@@ -1,16 +1,4 @@
 options:
-  aws-public-key:
-    type: string
-    default: ""
-    description: Amazon Public Key for S3
-  aws-secret-key:
-    type: string
-    default: ""
-    description: Amazon Secret Key for S3
-  aws-s3-bucket:
-    type: string
-    default: ""
-    description: Amazon S3 bucket to use for backups
   flush-opcode-cache:
     type: boolean
     default: False

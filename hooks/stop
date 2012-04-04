@@ -1,3 +1,4 @@
 #!/bin/bash
 
-/etc/cron.daily/drupal-backup
+service nginx stop
+service php5-fpm stop

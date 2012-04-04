@@ -40,7 +40,7 @@ t1 = """
 # servers will go here
 template = """
 server {
-  listen 80;
+  listen 80 default;
   location / {
     proxy_pass  http://backend;
   }

@@ -87,7 +87,7 @@ ini_set('url_rewriter.tags', '');
 //\$conf['page_cache_invoke_hooks'] = FALSE;
 
 \$drupal_db = array(
-    'type' => 'mysqli',
+    'type' => 'mysql',
     'server' => '$host',
     'name' => '$database',
     'user' => '$user',
@@ -116,6 +116,6 @@ service nginx restart
 open-port 80/tcp
 open-port 8080/tcp
 
-$pub = `unit-get public-address`
+pub = `unit-get public-address`
 juju-log "Drupal site is now available on $pub"
 
